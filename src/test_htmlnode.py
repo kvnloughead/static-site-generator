@@ -19,10 +19,8 @@ class TestHTMLNode(unittest.TestCase):
         self.assertEqual(no_props_node.props_to_html(), "")
 
     def test_get_opening_tag(self):
-        img_node = HTMLNode(tag="img", children=None, props={ "src": "#"}, settings={ "isSelfClosing": True })
-        self.assertEqual(img_node._get_opening_tag(), '<img src="#">')
-
-        div_node = HTMLNode(tag="div", children=[img_node, img_node])
+        child_node = HTMLNode(tag="div")
+        div_node = HTMLNode(tag="div", children=[child_node, child_node])
         self.assertEqual(div_node._get_opening_tag(), "<div>")
 
         text_node = HTMLNode(tag=None, value="Text")
@@ -54,14 +52,15 @@ class TestHTMLNode(unittest.TestCase):
         self.assertEqual(indented_node._get_closing_tag(2), "\n  </div>")
 
     def test_str_and_repr(self):
-        p_node_1 = HTMLNode(tag="p", value="Paragraph 1", props={"class": "text"})
-        p_node_2 = HTMLNode(tag="p", value="Paragraph 2")
-        img_node = HTMLNode(tag="img", children=None, props={ "src": "#"}, settings={ "isSelfClosing": True })
+        child_1 = HTMLNode(tag="p", value="Paragraph 1", props={"class": "text"})
+        child_2 = HTMLNode(tag="p", value="Paragraph 2")
+        child_3 = HTMLNode(tag="p", value="Paragraph 3")
         
-        parent_node = HTMLNode(tag="div", children=[p_node_1, p_node_2])
-        aunt_node = HTMLNode(tag="div", children=[img_node])
+        parent_node = HTMLNode(tag="div", children=[child_1, child_2])
+        aunt_node = HTMLNode(tag="div", children=[child_3])
 
         granny_node = HTMLNode(tag="main", children=[parent_node, aunt_node])
-        self.assertEqual(granny_node.__str__(0), '<main>\n  <div>\n    <p class="text">\n      Paragraph 1\n    </p>\n    <p>\n      Paragraph 2\n    </p>\n  </div>\n  <div>\n    <img src="#">\n  </div>\n</main>')
 
-        self.assertEqual(repr(granny_node), '<main><div><p class="text">Paragraph 1</p><p>Paragraph 2</p></div><div><img src="#"></div></main>')        
+        self.assertEqual(granny_node.__str__(0), '<main>\n  <div>\n    <p class="text">\n      Paragraph 1\n    </p>\n    <p>\n      Paragraph 2\n    </p>\n  </div>\n  <div>\n    <p>\n      Paragraph 3\n    </p>\n  </div>\n</main>')     
+
+        self.assertEqual(repr(granny_node), '<main><div><p class="text">Paragraph 1</p><p>Paragraph 2</p></div><div><p>Paragraph 3</p></div></main>')        

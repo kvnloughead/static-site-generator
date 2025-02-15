@@ -1,14 +1,11 @@
 class HTMLNode:
-    def __init__(self, tag = None, value = None, children = None, props = None, settings = { "isSelfClosing": False }):
+    def __init__(self, tag=None, value=None, children=None, props=None):
         if not (tag or value or children):
             raise TypeError("Must provide at least one of tag, value, or children")
         self.tag = tag
         self.value = value
         self.children = children
-        self.props = props
-        self.settings = settings
-        
-    
+        self.props = props        
 
     def to_html(self):
         raise Exception(NotImplementedError)
@@ -49,7 +46,6 @@ class HTMLNode:
             else:
                 result += repr(child)
         return result
-
         
     def __str__(self, left_justify=0):
         # Pretty printed version
@@ -58,10 +54,6 @@ class HTMLNode:
         
         result = f"{left_justify_spaces}{self._get_opening_tag()}"
         result += self._get_value(indent)
-        
-        if self.settings["isSelfClosing"]:
-            return result
-        
         result += self._get_children(left_justify + 2)
         result += self._get_closing_tag(left_justify)
         return result
@@ -70,11 +62,6 @@ class HTMLNode:
         # Raw HTML version
         result = self._get_opening_tag()
         result += self._get_value()
-        
-        if self.settings["isSelfClosing"]:
-            return result
-        
         result += self._get_children()
-        
         result += self._get_closing_tag()
         return result

@@ -1,4 +1,8 @@
 class HTMLNode:
+    """
+    HTMLNode is the base class of representation of an HTML node. It is mostly
+    used via subclasses.
+    """
     def __init__(self, tag=None, value=None, children=None, props=None):
         if not (tag or value or children):
             raise TypeError("Must provide at least one of tag, value, or children")

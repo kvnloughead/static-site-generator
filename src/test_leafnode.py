@@ -10,13 +10,15 @@ class TestHTMLNode(unittest.TestCase):
             leaf_with_children = LeafNode("p", "foobar", children=[leaf_node])
             self.assertTrue("got an unexpected keyword argument 'children'")
         
-    def test_without_value(self):
+    def test_to_html_without_value(self):
         # With None value
         with self.assertRaises(ValueError) as context:
             leaf_no_value = LeafNode("p", None)
+            leaf_no_value.to_html()
             self.assertTrue("A leaf must have a value")
         with self.assertRaises(TypeError) as context:
             leaf_no_value = LeafNode("p")
+            leaf_no_value.to_html()
             self.assertTrue("A leaf must have a value")
         
     def test_to_html(self):

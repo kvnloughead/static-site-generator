@@ -8,15 +8,29 @@ class LeafNode(HTMLNode):
     by the base HTMLNode class.
 
     Parameters
-     - value is required, and if it is None a ValueError is raised.
-     - tag is required but can be None, in which case value is returned as text.
+     - value is required but can be None.
+     - tag is required but can be None.
     """
     def __init__(self, tag, value, props=None):
         super().__init__(tag, value, props=props)
 
     def to_html(self):
-        if not self.value:
+        """
+        If there is no value, a ValueError is raised. If there's no tag, the 
+        value is returned as text. Otherwise, the parent's repr function is used.
+        """
+        if type(self.value) != str:
             raise ValueError("A leaf must have a value")
         if not self.tag:
             return self.value
         return self.__repr__()
+    
+    def __str__(self, left_justify=0):
+        if not self.tag:
+            return self.to_html()
+        return super().__str__(left_justify)
+    
+    def __repr__(self):
+        if not self.tag:
+            return self.to_html()
+        return super().__repr__()

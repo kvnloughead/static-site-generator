@@ -1,6 +1,16 @@
 import unittest
 from leafnode import LeafNode
 
+
+equality_test_node_params = {
+    "tag": "p",
+    "value": "text",
+    "props": {
+        "class": "foo foo_bar_baz",
+        "id": "this-node"
+    }
+}
+
 class TestLeafNode(unittest.TestCase):
     leaf_test_cases = [
         {
@@ -45,7 +55,24 @@ class TestLeafNode(unittest.TestCase):
             "expected_repr": "Hello & goodbye",
             "expected_html": "Hello & goodbye"
         }
-    ]   
+    ]
+
+
+    equality_cases = [
+        {
+            "name": "equal with tag and props",
+            "node_params": equality_test_node_params,
+            "expected_equal": True
+        },
+        {
+            "name": "equal without tag",
+            "node_params": {
+                "tag": None,
+                "value": "text",
+            },
+            "expected_equal": True
+        }
+    ]
 
     def test_with_children(self):
         with self.assertRaises(TypeError) as context:
@@ -86,3 +113,25 @@ class TestLeafNode(unittest.TestCase):
                 self.assertEqual(str(node), case["expected_str"])
                 self.assertEqual(repr(node), case["expected_repr"])
                 self.assertEqual(node.to_html(), case["expected_html"])
+
+    def test_equality(self):
+        for case in self.equality_cases:
+            with self.subTest(case["name"]):
+                node = LeafNode(**case["node_params"])
+                other = LeafNode(**case["node_params"])
+                self.assertEqual(node == other, case["expected_equal"])
+
+    def test_inequality(self):
+        node = LeafNode(**equality_test_node_params)
+        other_params = equality_test_node_params.copy()
+
+        props = { "tag": "different", "value": "different", "props": { "different": True} }
+
+        for prop in props:
+            other_params[prop] = props[prop]
+            self.assertNotEqual(node, LeafNode(**other_params))
+
+            other_params[prop] = None
+            self.assertNotEqual(node, LeafNode(**other_params))
+
+            other_params[prop] = equality_test_node_params[prop]

@@ -1,5 +1,5 @@
 import unittest
-from leafnode import LeafNode
+from nodes.leafnode import LeafNode
 
 
 equality_test_node_params = {

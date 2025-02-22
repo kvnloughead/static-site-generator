@@ -26,6 +26,8 @@ class LeafNode(HTMLNode):
         return self.__repr__()
     
     def __eq__(self, other):
+        if not isinstance(other, LeafNode):
+            return False
         return (self.tag == other.tag and self.value == other.value and self.props == other.props )
 
     def __str__(self, left_justify=0):

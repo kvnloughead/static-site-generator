@@ -8,7 +8,7 @@ def split_nodes_by_image(old_nodes, new_nodes=None):
     ```python
     text_node = TextNode("Text ![alt](image.png) text.", TextType.NORMAL)
     node = LeafNode("p", "text")
-    new_nodes = split_nodes_delimiter([text_node, node], "`", TextType.CODE)
+    new_nodes = split_nodes_by_image([text_node, node])
     ```
 
     The new_nodes list will look like this:
@@ -53,6 +53,8 @@ def split_text_on_image(text, image):
     The maxsplits parameter is set to 1, so there are only two pieces: to the 
     left of the image and to the right. These are returned in a tuple.
 
+    Parameters
+    
     - text: a string of markdown
     - image: a tuple of two strings. The first will be used as the markdown 
              image's alt text, the second as its URL.

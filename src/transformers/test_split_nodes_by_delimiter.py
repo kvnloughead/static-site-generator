@@ -86,12 +86,6 @@ class TestSplitNode(unittest.TestCase):
         for case in self.no_delimiter_cases:
             with self.subTest(case["name"]):
                 result = split_node(case["node"], case["delimiter"], case["text_type"])
-                print("\nExpected:")
-                for node in case["expected"]:
-                    print(f"Text: {node.text}, Type: {node.text_type}, URL: {node.url}")
-                print("\nActual:")
-                for node in result:
-                    print(f"Text: {node.text}, Type: {node.text_type}, URL: {node.url}")
                 self.assertEqual(result, case["expected"])
 
     def test_empty_node(self):

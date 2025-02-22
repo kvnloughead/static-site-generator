@@ -1,3 +1,5 @@
+import re
+
 from leafnode import LeafNode
 from textnode import TextNode, TextType
 
@@ -121,3 +123,53 @@ def split_node(text_node, delimiter, text_type):
     if curr_node.text:
         result_nodes.append(curr_node)
     return result_nodes
+
+
+def extract_markdown_images(text):
+    """
+    extract_markdown_images takes a raw markdown string and returns a list of tuples. Each tuple contains the alt text, URL, and title of any images found in the string.
+
+    Example:
+
+    ```python
+    extract_markdown_images("Text ![alt text](https://example.png)")
+    # returns [("alt text", "https://example.png")]
+    ```
+
+    Missing alt text or URL results in a tuple with empty strings. This may be
+    changed at a later time.
+
+    ```python
+    extract_markdown_images("Empty ![]()")
+    # returns [("", "")]
+    ```
+    """
+    image_regex = r'!\[([^\[\]]*)\]\(([^\(\)]*)\)'
+    matches = re.findall(image_regex, text)
+    return matches
+
+
+
+def extract_markdown_links(text):
+    """
+    extract_markdown_links takes a raw markdown string and returns a list of tuples. Each tuple contains the anchor text, URL, and title of any hyperlinks found in the string.
+
+    ```python
+    extract_markdown_links("Link [link](https://example.com)")
+    # returns [("link", "https://example.com", "")]
+
+    extract_markdown_links('Link [link](https://example.com "title")')
+    # returns [("link", "https://example.com", "title")]
+    ```
+
+    Missing link text or URL results in a tuple with empty strings. This may be
+    changed at a later time.
+
+    ```python
+    extract_markdown_images("Empty ![]()")
+    # returns [("", "")]
+    ```
+    """
+    link_regex = r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*?)(?:\s+\"([^\"]*)\")?\)"
+    matches = re.findall(link_regex, text)
+    return matches

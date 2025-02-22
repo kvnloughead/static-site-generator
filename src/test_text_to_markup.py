@@ -1,5 +1,5 @@
 import unittest
-from text_to_markup import text_to_html, split_node, split_nodes_by_delimiter
+from text_to_markup import text_to_html, split_node, split_nodes_by_delimiter, extract_markdown_images, extract_markdown_links
 from textnode import TextNode, TextType
 from leafnode import LeafNode
 
@@ -289,3 +289,75 @@ class TestSplitNodeByDelimiter(unittest.TestCase):
                 "*",
                 TextType.BOLD)
         self.assertTrue('Invalid markdown. No closing delimiter found, searching for "*".')
+
+class TestExtractMarkdownImages(unittest.TestCase):
+    test_cases = [
+        {
+            "name": "with URL",
+            "text": "Here is an image ![alt text](https://foo.png)",
+            "expected": [("alt text", "https://foo.png")]
+        },
+        {
+            "name": "with filepath",
+            "text": "Here is an image ![alt text](../path/to/image.png)",
+            "expected": [("alt text", "../path/to/image.png")]
+        },
+        {
+            "name": "multiple images",
+            "text": '![first](image.png) ![second](image.png)',
+            "expected": [("first", "image.png"),
+                         ("second", "image.png")]
+        },
+        {
+            "name": "no images",
+            "text": "Empty",
+            "expected": []
+        },
+        {
+            "name": "empty string",
+            "text": "",
+            "expected": []
+        },
+        {
+            "name": "empty alt",
+            "text": "Not accessible ![](image.png)",
+            "expected": [("", "image.png")]
+        },
+        {
+            "name": "empty URL",
+            "text": "Not accessible ![alt]()",
+            "expected": [("alt", "")]
+        },
+    ]
+
+    def test_simple_cases(self):
+         for case in self.test_cases:
+            with self.subTest(case["name"]):
+                images = extract_markdown_images(case["text"])
+                self.assertEqual(images, case["expected"])
+
+class TestExtractMarkdownLinks(unittest.TestCase):
+    test_cases = [
+        {
+            "name": "simple case",
+            "text": "Here is a [link](https://example.com)",
+            "expected": [("link", "https://example.com", "")]
+        },
+        {
+            "name": "with title",
+            "text": "Here is a [link](https://example.com \"title\")",
+            "expected": [("link", "https://example.com", "title")]
+        },
+        {
+            "name": "empty fields",
+            "text": "Here is a []()",
+            "expected": [("", "", "")]
+        }
+        
+    ]
+
+    def test_simple_cases(self):
+         for case in self.test_cases:
+            with self.subTest(case["name"]):
+                links = extract_markdown_links(case["text"])
+                self.assertEqual(links, case["expected"])

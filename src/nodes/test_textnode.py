@@ -1,7 +1,7 @@
-import unittest
+from test_utils import TestRunner
 from nodes.textnode import TextNode, TextType
 
-class TestTextNode(unittest.TestCase):
+class TestTextNode(TestRunner):
     def test_eq(self):
         node = TextNode("Test", TextType.BOLD)
         node2 = TextNode("Test", TextType.BOLD)

@@ -1,9 +1,9 @@
-import unittest
+from test_utils import TestRunner
 from transformers.split_nodes_by_link import split_nodes_by_link
 from nodes.textnode import TextNode, TextType
 from nodes.leafnode import LeafNode
 
-class TestSplitNode(unittest.TestCase):
+class TestSplitNode(TestRunner):
     simple_cases = [
         {
             "name": "simple case",

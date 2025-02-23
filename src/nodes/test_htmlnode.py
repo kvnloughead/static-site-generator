@@ -1,7 +1,7 @@
-import unittest
+from test_utils import TestRunner
 from nodes.htmlnode import HTMLNode
 
-class TestHTMLNode(unittest.TestCase):
+class TestHTMLNode(TestRunner):
     def setUp(self):
         self.basic_props = {"class": "my-button", "type": "button"}
         self.basic_text = "Click me"

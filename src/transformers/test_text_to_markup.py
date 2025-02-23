@@ -1,9 +1,9 @@
-import unittest
+from test_utils import TestRunner
 from transformers.text_to_markup import text_to_html, extract_markdown_images, extract_markdown_links
 from nodes.textnode import TextNode, TextType
 from nodes.leafnode import LeafNode
 
-class TestTextToMarkup(unittest.TestCase):
+class TestTextToMarkup(TestRunner):
     simple_cases = [
         {
             "name": "normal text",
@@ -113,7 +113,7 @@ class TestTextToMarkup(unittest.TestCase):
                 self.assertEqual(leaf_node, leaf_from_text)
 
 
-class TestExtractMarkdownImages(unittest.TestCase):
+class TestExtractMarkdownImages(TestRunner):
     test_cases = [
         {
             "name": "with URL",
@@ -159,7 +159,7 @@ class TestExtractMarkdownImages(unittest.TestCase):
                 images = extract_markdown_images(case["text"])
                 self.assertEqual(images, case["expected"])
 
-class TestExtractMarkdownLinks(unittest.TestCase):
+class TestExtractMarkdownLinks(TestRunner):
     test_cases = [
         {
             "name": "simple case",

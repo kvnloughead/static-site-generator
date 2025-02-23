@@ -1,8 +1,8 @@
-import unittest
+from test_utils import TestRunner
 from transformers.text_to_textnodes import text_to_textnodes
 from nodes.textnode import TextNode, TextType
 
-class TestTextToTextNodes(unittest.TestCase):
+class TestTextToTextNodes(TestRunner):
      simple_cases = [
           {
                "name": "all types",

@@ -1,8 +1,8 @@
-import unittest
+from test_utils import TestRunner
 from nodes.parentnode import ParentNode
 from nodes.leafnode import LeafNode
 
-class TestParentNode(unittest.TestCase):
+class TestParentNode(TestRunner):
     def setUp(self):
         # Common test elements
         self.leaf_1 = LeafNode("p", "Leaf 1")

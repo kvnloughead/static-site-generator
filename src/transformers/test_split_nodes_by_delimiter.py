@@ -1,4 +1,4 @@
-import unittest
+from test_utils import TestRunner
 from transformers.split_nodes_by_delimiter import split_node, split_nodes_by_delimiter
 from nodes.textnode import TextNode, TextType
 from nodes.leafnode import LeafNode
@@ -9,7 +9,7 @@ delimiters = [
     {"char": "`", "text_type": TextType.CODE}
 ]
 
-class TestSplitNode(unittest.TestCase):
+class TestSplitNode(TestRunner):
     no_delimiter_cases = [
         {
             "name": "Without delimiter",
@@ -181,7 +181,7 @@ class TestSplitNode(unittest.TestCase):
                     with_italic, "`", TextType.CODE)
                 self.assertEqual(with_code, case["expected"])
 
-class TestSplitNodeByDelimiter(unittest.TestCase):
+class TestSplitNodeByDelimiter(TestRunner):
     simple_cases = [
         {
             "name": "simple case with match",

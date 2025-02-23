@@ -1,4 +1,4 @@
-import unittest
+from test_utils import TestRunner
 from nodes.leafnode import LeafNode
 
 
@@ -11,7 +11,7 @@ equality_test_node_params = {
     }
 }
 
-class TestLeafNode(unittest.TestCase):
+class TestLeafNode(TestRunner):
     leaf_test_cases = [
         {
             "name": "button with props",

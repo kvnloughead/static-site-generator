@@ -1,5 +1,12 @@
 from nodes.textnode import TextNode, TextType
 
+def skip_node(node):
+    """
+    skip_node returns true unless the node is a non-empty, normal text node.
+    """
+    return not isinstance(node, TextNode) or not node.text or node.text_type != TextType.NORMAL
+
+
 def split_nodes_by_delimiter(old_nodes, delimiter, text_type, new_nodes=None):
     """
     split_nodes_by_delimiter takes a list of nodes, splits any text nodes
@@ -21,6 +28,8 @@ def split_nodes_by_delimiter(old_nodes, delimiter, text_type, new_nodes=None):
         LeafNode("p", "text")
     ]
     ```
+
+    Nested delimiters are not supported.
     """
     result = []
     if len(old_nodes) == 0 or (new_nodes != None and len(new_nodes) == 0):
@@ -31,7 +40,7 @@ def split_nodes_by_delimiter(old_nodes, delimiter, text_type, new_nodes=None):
     current_node = old_nodes[0]
 
     # Add non-text nodes and text nodes with no value to the new list unchanged.
-    if not isinstance(current_node, TextNode) or not current_node.text:
+    if skip_node(current_node):
         result.append(current_node)
     else:
         split_nodes = split_node(current_node, delimiter, text_type)
@@ -64,7 +73,7 @@ def split_node(text_node, delimiter, text_type):
     
     open_delimiter = False
     result_nodes = []
-    curr_node = TextNode("", TextType.NORMAL) # default to normal
+    curr_node = TextNode("", text_node.text_type)
 
     i = 0
     if text_node.text[:len(delimiter)] == delimiter:
@@ -90,7 +99,7 @@ def split_node(text_node, delimiter, text_type):
             result_nodes.append(curr_node)
             # Reset open_delimiter and initialize the new current (normal) node
             open_delimiter = False
-            curr_node = TextNode("", TextType.NORMAL)
+            curr_node = TextNode("", text_node.text_type)
             i += len(delimiter) - 1
         else:
             curr_node.text += char

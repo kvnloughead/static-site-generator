@@ -119,6 +119,68 @@ class TestSplitNode(unittest.TestCase):
             split_node(node, "*", TextType.BOLD)
         self.assertTrue('Invalid markdown. No closing delimiter found, searching for "*".')
 
+    multiple_delimiters = [
+        {
+            "name": "three different delimiters",
+            "old_nodes": [
+                TextNode("Here we have **bold**, *italic*, and `code` all in one.", TextType.NORMAL)
+            ],
+            "expected": [
+                TextNode("Here we have ", TextType.NORMAL),
+                TextNode("bold", TextType.BOLD),
+                TextNode(", ", TextType.NORMAL),
+                TextNode("italic", TextType.ITALIC),
+                TextNode(", and ", TextType.NORMAL),
+                TextNode("code", TextType.CODE),
+                TextNode(" all in one.", TextType.NORMAL)
+            ]
+        },
+        {
+            "name": "two of the same type",
+            "old_nodes": [
+                TextNode("Here we have **bold** and **more bold**", TextType.NORMAL)
+            ],
+            "expected": [
+                TextNode("Here we have ", TextType.NORMAL),
+                TextNode("bold", TextType.BOLD),
+                TextNode(" and ", TextType.NORMAL),
+                TextNode("more bold", TextType.BOLD),
+            ]
+        },
+        {
+            "name": "adjacent delimiters",
+            "old_nodes": [
+                TextNode("**bold***italic*`code`", TextType.NORMAL)
+            ],
+            "expected": [
+                TextNode("bold", TextType.BOLD),
+                TextNode("italic", TextType.ITALIC),
+                TextNode("code", TextType.CODE),
+            ]
+        },
+        {
+            "name": "nested delimiters aren't parsed",
+            "old_nodes": [
+                TextNode("**The is *really* important**", TextType.NORMAL)
+            ],
+            "expected": [
+                TextNode("The is *really* important", TextType.BOLD),
+            ]
+        },
+
+    ]
+
+    def test_multiple_calls(self):
+        for case in self.multiple_delimiters:
+            with self.subTest(case["name"]):
+                with_bold = split_nodes_by_delimiter(
+                    case["old_nodes"], "**", TextType.BOLD)
+                with_italic = split_nodes_by_delimiter(
+                    with_bold, "*", TextType.ITALIC)
+                with_code = split_nodes_by_delimiter(
+                    with_italic, "`", TextType.CODE)
+                self.assertEqual(with_code, case["expected"])
+
 class TestSplitNodeByDelimiter(unittest.TestCase):
     simple_cases = [
         {

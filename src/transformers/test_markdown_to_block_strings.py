@@ -5,24 +5,32 @@ class TestMarkdownToBlockString(TestRunner):
     simple_cases = [
         {
             "name": "simple case",
-            "text": "# This is a heading.\nThis is a paragraph of text.\nIt some **bold** and *italic* words inside of it.\n* This is the first list item in a list block\n* This is a list item\n* This is another list item",
+            "text": "# This is a heading.\n\nThis is a paragraph of text.\n\nIt some **bold** and *italic* words inside of it.\n\n* This is the first list item in a list block\n* This is a list item\n* This is another list item",
             "expected": [
                 "# This is a heading.", 
                 "This is a paragraph of text.", 
-                "It some **bold** and *italic* words inside of it.", "* This is the first list item in a list block", 
-                "* This is a list item", 
-                "* This is another list item"
+                "It some **bold** and *italic* words inside of it.",
+                "* This is the first list item in a list block\n* This is a list item\n* This is another list item"
             ]
         },
         {
             "name": "strips extra whitespace",
-            "text": "   # This is a heading.    \n\n\nThis is a paragraph of text.\n   It some **bold** and *italic* words inside of it.\n* This is the first list item in a list block  \n\n* This is a list item  \n* This is another list item  \n\n",
+            "text": "\n# This is a heading.\n\n\nThis is a paragraph of text.\n\nIt some **bold** and *italic* words inside of it. \n\n\n* This is the first list item in a list block\n * This leading or trailing space will not be stripped \n* This trailing space will be stripped \n\n## this trailing space will \n ",
             "expected": [
                 "# This is a heading.", 
                 "This is a paragraph of text.", 
-                "It some **bold** and *italic* words inside of it.", "* This is the first list item in a list block", 
-                "* This is a list item", 
-                "* This is another list item"
+                "It some **bold** and *italic* words inside of it.",
+                "* This is the first list item in a list block\n * This leading or trailing space will not be stripped \n* This trailing space will be stripped",
+                "## this trailing space will"
+            ]
+        },
+        {
+            "name": "code block",
+            "text": "# code block example\n\n```python\nfor foo in bar:\n\tprint(foo)\n```\n\ntext",
+            "expected": [
+                "# code block example",
+                "```python\nfor foo in bar:\n\tprint(foo)\n```",
+                "text"
             ]
         }
     ]

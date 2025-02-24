@@ -2,7 +2,7 @@ import re
 
 def markdown_to_block_strings(markdown):
     """
-    markdown_to_blocks accepts a string of markdown and splits it into block strings, where blocks are separated by newlines.
+    markdown_to_blocks accepts a string of markdown and splits it into block strings, where blocks are separated by an empty line (i.e., by two newline characters).
 
     Leading and trailing whitespace is stripped and multiple adjacent newlines are treated as one.
 

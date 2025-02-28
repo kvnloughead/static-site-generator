@@ -69,3 +69,8 @@ class HTMLNode:
         result += self._get_children()
         result += self._get_closing_tag()
         return result
+
+    def __eq__(self, other):
+        if not isinstance(other, HTMLNode):
+            return False
+        return (self.tag == other.tag and self.value == other.value and self.props == other.props and self.children == other.children)

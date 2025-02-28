@@ -26,3 +26,7 @@ class ParentNode(HTMLNode):
             raise ValueError("A parent node must have children")
         return super().__repr__()
                 
+    def __eq__(self, other):
+        if not isinstance(other, ParentNode):
+            return False
+        return super().__eq__(other)

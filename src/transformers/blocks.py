@@ -43,8 +43,8 @@ def block_to_block_type(block_text):
     - Headings start with 1 to 6 # characters, followed by a space, then one or more characters. Example: "# Foobar".
     - Code blocks start and end with three backticks. Example: "```\nprint("foobar")\n```. Newlines are allowed, but not required.
     - Quote: each line starts with a >.
-    - Unordered list: each line starts with a * or each line starts with a -
-    - Ordered list: each line starts with a number followed by a "." character. The numbers must start at 1 and be sequential.
+    - Unordered list: each line starts with a * or each line starts with a -, followed by a space.
+    - Ordered list: each line starts with a number followed by a "." character, followed by a space. The numbers must start at 1 and be sequential.
     """
     
     def is_unordered_list(lines):
@@ -79,7 +79,7 @@ def is_ordered_list(lines, i=0):
         return True
     
     # Return False if the current line does start with the right number
-    if not lines[i].startswith(f"{i+1}."):
+    if not lines[i].startswith(f"{i+1}. "):
         return False
         
     # Check the next line

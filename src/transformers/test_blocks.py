@@ -1,7 +1,7 @@
 from test_utils import TestRunner
 from transformers.blocks import markdown_to_block_strings, block_to_block_type, BlockType, each_line_starts_with, is_ordered_list
 
-class TestMarkdownToBlockString(TestRunner):
+class TestMarkdownToBlockStrings(TestRunner):
     simple_cases = [
         {
             "name": "simple case",
@@ -68,7 +68,6 @@ class TestBlockToBlockType(TestRunner):
 
     ordered_list_cases = [
         ("simple case", "1. first line\n2. second line"),
-        ("missing space after number", "1.first line\n2. second line"), 
         ("only one entry", "1. first line"),
     ]
 
@@ -84,6 +83,7 @@ class TestBlockToBlockType(TestRunner):
         ("not a heading - missing space", "#foo"),
         ("not a quote - missing >", "> foo\nbar\n> baz"),
         ("not a list - missing dots", "1 missing dot\n2 missing dot"),
+        ("missing space after number", "1.first line\n2. second line"), 
         ("not a list - out of order", "1. foo\n3. bar"),
         ("not a list - mixed bullets", "* foo\n- bar"),
         ("not a list - missing space", "* foo\n*bar"),
@@ -146,7 +146,7 @@ class TestIsOrderedList(TestRunner):
         {
             "name": "missing space",
             "lines": ["1.yes", "2. yes", "3. yes"],
-            "expected": True
+            "expected": False
         },               
         {
             "name": "bad sequence",

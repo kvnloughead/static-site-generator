@@ -4,6 +4,179 @@ from nodes.leafnode import LeafNode
 from nodes.parentnode import ParentNode
 from transformers.markdown_to_html_node import markdown_to_html_node, block_string_to_html_nodes, make_heading_node, make_code_node, make_quote_node, make_list_node
 
+class TestMarkdownToHTMLNode(TestRunner):
+    cases = [
+        {
+            "name": "full example",
+            "text": "# Musings on Unit Testing\n\nUnit testing your code is a *great* way to build confidence and make friends. Here are some tips.\n\n## Useful tips\n\n1. Talk about unit testing when you are at a party\n2. To impress a date, mention your project's test coverage\n\n## The kids like it too\n\nTry these **kid-friendly** activities:\n\n- write a program to distribute chores among siblings and require each sibling to write a share of the unit tests\n- every day is 'take a child to work' day if you make your child watch you as you write your unit tests\n\n## Random code example\n\n```python\nprint('Hello, world!')\n```\n\n## Conclusion\n\nI leave you with some inspiring quotes:\n\n> Unit testing is next to Godliness. -- unknown author\n\n> On the 6th day, God unit tested. -- unknown author",
+            "expected": {
+                "tag": "div",
+                "children": [
+                    LeafNode("h1", "Musings on Unit Testing"),
+                    ParentNode("p", children=[
+                        LeafNode(None, "Unit testing your code is a "),
+                        LeafNode("i", "great"),
+                        LeafNode(None, " way to build confidence and make friends. Here are some tips.")
+                    ]),
+                    LeafNode("h2", "Useful tips"),
+                    ParentNode("ol", children=[
+                        LeafNode("li", "Talk about unit testing when you are at a party"),
+                        LeafNode("li", "To impress a date, mention your project's test coverage")
+                    ]),
+                    LeafNode("h2", "The kids like it too"),
+                    ParentNode("p", children=[
+                        LeafNode(None, "Try these "),
+                        LeafNode("b", "kid-friendly"),
+                        LeafNode(None, " activities:")
+                    ]),
+                    ParentNode("ul", children=[
+                        LeafNode("li", "write a program to distribute chores among siblings and require each sibling to write a share of the unit tests"),
+                        LeafNode("li", "every day is 'take a child to work' day if you make your child watch you as you write your unit tests")
+                    ]),
+                    LeafNode("h2", "Random code example"),
+                    ParentNode("pre", children=[LeafNode("code", "python\nprint('Hello, world!')\n")]),
+                    LeafNode("h2", "Conclusion"),
+                    LeafNode("p", "I leave you with some inspiring quotes:"),
+                    LeafNode("blockquote", "Unit testing is next to Godliness. -- unknown author"),
+                    LeafNode("blockquote", "On the 6th day, God unit tested. -- unknown author")
+                ]
+            }
+        }
+    ]
+
+    def test_cases(self):
+         for case in self.cases:
+            with self.subTest(case["name"]):
+                actual = markdown_to_html_node(case["text"])
+                expected_children = case["expected"]["children"]
+                expected = ParentNode(case["expected"]["tag"],
+                                        children=expected_children)
+                self.assertEqual(actual, expected)
+                self.assertEqual(repr(actual), repr(expected))
+                self.assertEqual(len(list(actual.children)), len(expected_children))
+
+
+class TestBlockStringToHTMLNodes(TestRunner):
+    cases = [
+       {
+            "name": "h1",
+            "text": "# Test",
+            "expected_tag": "h1",
+       },
+       {
+            "name": "h1 multiline",
+            "text": "# Test\n123",
+            "expected_tag": "h1",
+       },
+       {
+            "name": "h3",
+            "text": "### Test",
+            "expected_tag": "h3",
+       },
+
+       {
+            "name": "p (no space == not heading)",
+            "text": "#Test",
+            "expected_tag": "p",
+       },
+       {
+            "name": "p (7 #s == not heading)",
+            "text": "####### Test",
+            "expected_tag": "p",
+       },
+
+       { 
+            "name": "code",
+            "text": "```print('foo')```",
+            "expected_tag": "pre",
+       },     
+       {
+            "name": "code multiline",
+            "text": "```print('foo')\nprint('bar')```",
+            "expected_tag": "pre",
+       },
+       {
+            "name": "p (less than 3 backticks == not code block)",
+            "text": "``print('foo')``",
+            "expected_tag": "p",
+       },
+
+       { 
+            "name": "quote",
+            "text": "> Quote",
+            "expected_tag": "blockquote",
+       },
+       {
+            "name": "quote multiline",
+            "text": "> Quote\n> end quote",
+            "expected_tag": "blockquote",
+       },
+       {
+            "name": "p - (not quote multiline)",
+            "text": "> Quote\n end quote",
+            "expected_tag": "p",
+       },
+       {
+            "name": "p - (not quote missing space)",
+            "text": ">Quote",
+            "expected_tag": "p",
+       },
+
+       {
+            "name": "ul with one item (asterisk)",
+            "text": "* Test",
+            "expected_tag": "ul",
+       },
+       {
+            "name": "ul with one item (dash)",
+            "text": "- Test",
+            "expected_tag": "ul",
+       },
+       {
+            "name": "ul with multiple items (asterisk)",
+            "text": "* Testing\n* Testing",
+            "expected_tag": "ul",
+       },
+
+       {
+            "name": "p (missing space == not ul)",
+            "text": "*Testing\n* Testing",
+            "expected_tag": "p",
+       },
+
+       {
+            "name": "ol",
+            "text": "1. abc\n2. def",
+            "expected_tag": "ol",
+       },      
+       {
+            "name": "p - (missing space == not ol)",
+            "text": "1.abc\n2. def",
+            "expected_tag": "p",
+       },
+       {
+            "name": "p - (missing number == not ol)",
+            "text": "1.abc\n3. xyz",
+            "expected_tag": "p",
+       },
+       {
+            "name": "p - (missing dot == not ol)",
+            "text": "1 abc\n2. def",
+            "expected_tag": "p",
+       },
+       {
+            "name": "p - (missing 1. == not ol)",
+            "text": "2. def\n3. xyz",
+            "expected_tag": "p",
+       },
+    ]
+
+    def test_cases(self):
+        for case in self.cases:
+            with self.subTest(case["name"]):
+                actual = block_string_to_html_nodes(case["text"])
+                self.assertEqual(actual.tag, case["expected_tag"])
+
 class TestMakeHeadingAndQuoteNodes(TestRunner):
     heading_cases = [
         { 
@@ -206,8 +379,8 @@ class TestMakeQuoteListAndParagraphNodes(TestRunner):
         },
     ]    
 
-    def test_list_cases(self):
-         for case in self.list_cases:
+    def test_cases(self):
+        for case in self.list_cases:
             with self.subTest(case["name"]):
                 actual = make_list_node(case["text"], case["expected"]["tag"])
                 expected_children = case["expected"]["children"]

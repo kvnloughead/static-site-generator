@@ -32,7 +32,11 @@ def block_to_block_type(block_text):
         return each_line_starts_with("* ", lines) or each_line_starts_with("- ", lines)
 
     def is_quote(lines):
-        return each_line_starts_with("> ", lines)
+        for line in lines:
+            if not (line.startswith("> ") or line == ">"):
+                return False
+        else:
+            return True
     
     lines = block_text.split("\n")
     code_block_rx = re.compile(r'^```.+```$', re.DOTALL)

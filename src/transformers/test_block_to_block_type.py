@@ -21,6 +21,7 @@ class TestBlockToBlockType(TestRunner):
     quote_cases = [
         ("one line", "> you have nothing to fear but off by one errors"),
         ("multiple lines", "> cat on a tin roof\n> dogs in a pile\n> nothing left to do but smile"),
+        ("multiple lines with empty line", "> Insert quote.\n>\n> -- unknown author"),
     ]
 
     ordered_list_cases = [

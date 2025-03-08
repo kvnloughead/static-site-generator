@@ -1,6 +1,6 @@
 from test_utils import TestRunner
-from nodes.textnode import TextNode, TextType
 from nodes.leafnode import LeafNode
+from nodes.voidnode import VoidNode
 from nodes.parentnode import ParentNode
 from transformers.markdown_to_html_node import markdown_to_html_node, block_string_to_html_nodes, make_heading_node, make_code_node, make_quote_node, make_list_node
 
@@ -15,7 +15,7 @@ class TestMarkdownToHTMLNode(TestRunner):
             "expected": {
                 "tag": "div",
                 "children": [LeafNode("h1", "Tolkien Fan Club"),
-                             LeafNode("img", value="",
+                             VoidNode("img", value="",
                                       props={ "src": "/images/tolkien.png",
                                               "alt": "JRR Tolkien sitting"}),
                 ],
@@ -246,7 +246,7 @@ class TestMakeHeadingAndQuoteNodes(TestRunner):
                 "children": [
                     LeafNode(tag="i", value="italic"),
                     LeafNode(tag=None, value=" and "),
-                    LeafNode(tag="img", value="", 
+                    VoidNode(tag="img", value="",
                              props={ "src": "foo.png", "alt": "alt" }),
                     LeafNode(tag=None, value=" and "),
                     LeafNode(tag="a", value="goto", 
@@ -316,7 +316,7 @@ class TestMakeQuoteListAndParagraphNodes(TestRunner):
                 "children": [
                     LeafNode(tag="i", value="italic"),
                     LeafNode(tag=None, value=" and "),
-                    LeafNode(tag="img", value="", 
+                    VoidNode(tag="img", value="",
                              props={ "src": "foo.png", "alt": "alt" }),
                     LeafNode(tag=None, value=" and "),
                     LeafNode(tag="a", value="goto", 
@@ -394,7 +394,7 @@ class TestMakeQuoteListAndParagraphNodes(TestRunner):
                     ParentNode("li", 
                                children=[LeafNode(None, "line 1 "), 
                                          LeafNode(tag="i", value="italic"), LeafNode(tag=None, value=" and "),
-                                         LeafNode(tag="img", value="", props={ "src": "foo.png", "alt": "alt" })]),
+                                         VoidNode(tag="img", value="", props={ "src": "foo.png", "alt": "alt" })]),
                     ParentNode("li", 
                                children=[LeafNode(tag=None, value="line 2 "), 
                                          LeafNode(tag="a", value="goto", 

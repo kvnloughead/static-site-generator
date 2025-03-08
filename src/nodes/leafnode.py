@@ -3,9 +3,10 @@ from nodes.htmlnode import HTMLNode
 class LeafNode(HTMLNode):
     """
     LeafNode is an HTMLNode containing text and no HTML element children. 
-    Self-closing tags are not LeafNode, they are handled by VoidNode.
-    Empty tags, like <div></div> are also not LeafNodes. They can be created
+    Empty tags, like <div></div> are not LeafNodes. They can be created
     by the base HTMLNode class.
+
+    Self-closing nodes are created with LeafNode's subclass VoidNode.
 
     Parameters
      - value is required but can be None.
@@ -35,7 +36,7 @@ class LeafNode(HTMLNode):
             return self.to_html()
         return super().__str__(left_justify)
     
-    def __repr__(self):
+    def __repr__(self, self_closing=False):
         if not self.tag:
             return self.to_html()
-        return super().__repr__()
+        return super().__repr__(self_closing=self_closing)

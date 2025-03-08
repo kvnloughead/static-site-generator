@@ -1,6 +1,7 @@
 import re
 
 from nodes.leafnode import LeafNode
+from nodes.voidnode import VoidNode
 from nodes.textnode import TextType
 
 def text_to_html(text_node):
@@ -20,7 +21,7 @@ def text_to_html(text_node):
         case TextType.LINK:
             return LeafNode("a", text_node.text, props={ "href": text_node.url })
         case TextType.IMAGE:
-            return LeafNode("img", "", props={ "src": text_node.url, "alt": text_node.text})    
+            return VoidNode("img", "", props={ "src": text_node.url, "alt": text_node.text})
 
 
 def extract_markdown_images(text):

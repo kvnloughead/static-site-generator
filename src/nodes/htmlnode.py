@@ -1,8 +1,13 @@
 class HTMLNode:
     """
     HTMLNode is the base class of representation of an HTML node. It is mostly
-    used via subclasses.
+    used via subclasses:
+
+    ParentNode - a node that has children
+    LeafNode - a node that doesn't have children
+    VoidNode - a self-closing LeafNode
     """
+
     def __init__(self, tag=None, value=None, children=None, props=None):
         if not (tag or value or children):
             raise TypeError("Must provide at least one of tag, value, or children")
@@ -62,12 +67,13 @@ class HTMLNode:
         result += self._get_closing_tag(left_justify)
         return result
 
-    def __repr__(self):
+    def __repr__(self, self_closing=False):
         # Raw HTML version
         result = self._get_opening_tag()
         result += self._get_value()
         result += self._get_children()
-        result += self._get_closing_tag()
+        if not self_closing:
+            result += self._get_closing_tag()
         return result
 
     def __eq__(self, other):

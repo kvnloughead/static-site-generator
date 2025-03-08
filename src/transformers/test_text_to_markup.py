@@ -2,6 +2,7 @@ from test_utils import TestRunner
 from transformers.text_to_markup import text_to_html, extract_markdown_images, extract_markdown_links
 from nodes.textnode import TextNode, TextType
 from nodes.leafnode import LeafNode
+from nodes.voidnode import VoidNode
 
 class TestTextToMarkup(TestRunner):
     simple_cases = [
@@ -86,7 +87,7 @@ class TestTextToMarkup(TestRunner):
     def test_image_cases(self):
         for case in self.image_cases:
             with self.subTest(case["name"]):
-                leaf_node = LeafNode(case["tag"], 
+                leaf_node = VoidNode(case["tag"],
                                      "", 
                                      props={ "src": case["url"],
                                              "alt": case["alt"]})

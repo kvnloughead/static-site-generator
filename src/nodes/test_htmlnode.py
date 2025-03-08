@@ -1,3 +1,4 @@
+import random
 from test_utils import TestRunner
 from nodes.htmlnode import HTMLNode
 
@@ -88,6 +89,13 @@ class TestHTMLNode(TestRunner):
             "expected_repr": '<main><div><p class="text">Paragraph 1</p><p>Paragraph 2</p></div><div><p>Paragraph 3</p></div></main>'
         }
     ]
+
+    def test_void_tag_not_voidnode(self):
+        void_tag = random.choice(HTMLNode._self_closing_tags)
+        msg = f"{void_tag} tags must be created as VoidNodes."
+        self.assert_raises_exception(TypeError,
+                                     msg,
+                                     lambda: HTMLNode(tag=void_tag))
 
     def test_bad_arguments(self):
         with self.assertRaises(TypeError) as context:

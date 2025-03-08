@@ -7,14 +7,21 @@ class HTMLNode:
     LeafNode - a node that doesn't have children
     VoidNode - a self-closing LeafNode
     """
+    _self_closing_tags = ["area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"]
 
     def __init__(self, tag=None, value=None, children=None, props=None):
+        if tag in self._self_closing_tags and not self.is_void():
+            raise TypeError(f"{tag} tags must be created as VoidNodes.")
         if not (tag or value or children):
             raise TypeError("Must provide at least one of tag, value, or children")
         self.tag = tag
         self.value = value
         self.children = children
         self.props = props        
+
+    def is_void(self):
+        """is_void is only implemented by VoidNode."""
+        pass
 
     def to_html(self):
         raise Exception(NotImplementedError)

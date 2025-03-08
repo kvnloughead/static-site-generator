@@ -31,9 +31,7 @@ def generate_page(from_path, template_path, dest_path, parent_tag="div"):
     html = markdown_to_html_node(markdown, parent_tag)
 
     with_title = template.replace("{{ Title }}", title)
-    with_content = with_title.replace("{{ Content }}", str(html))
-
-    print(template)
+    with_content = with_title.replace("{{ Content }}", repr(html))
 
     os.makedirs(os.path.dirname(dest_path), exist_ok=True)
     with open(dest_path, 'w') as f:

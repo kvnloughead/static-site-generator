@@ -1,4 +1,3 @@
-from test_utils import TestRunner
 from nodes.leafnode import LeafNode
 
 class VoidNode(LeafNode):
@@ -19,5 +18,8 @@ class VoidNode(LeafNode):
         """
         return self.__repr__()
     
+    def is_void(self):
+        return True
+
     def __repr__(self):
-        return super().__repr__(self_closing=True)
+        return super().__repr__(self_closing=self.is_void())

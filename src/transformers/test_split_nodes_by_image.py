@@ -83,7 +83,7 @@ class TestSplitNode(TestRunner):
     ]
 
     def test_simple_cases(self):
-           for case in self.simple_cases:
+        for case in self.simple_cases:
             with self.subTest(case["name"]):
                 actual = split_nodes_by_image(case["old_nodes"])
                 self.assertEqual(actual, case["expected"])

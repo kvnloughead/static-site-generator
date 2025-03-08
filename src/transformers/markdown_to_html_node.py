@@ -1,7 +1,8 @@
 from nodes.textnode import TextNode, TextType
 from nodes.parentnode import ParentNode
 from nodes.leafnode import LeafNode
-from transformers.blocks import markdown_to_block_strings, block_to_block_type, BlockType
+from transformers.markdown_to_block_strings import markdown_to_block_strings
+from transformers.block_to_block_type import block_to_block_type, BlockType
 from transformers.text_to_textnodes import text_to_textnodes
 from transformers.text_to_markup import text_to_html
 

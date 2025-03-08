@@ -21,7 +21,6 @@ class TestLeafNode(TestRunner):
                 "props": {"class": "btn", "type": "button"}
             },
             "expected_html": '<button class="btn" type="button">Test</button>',
-            "expected_str": '<button class="btn" type="button">\n  Test\n</button>'
         },
         {
             "name": "text only",
@@ -30,7 +29,6 @@ class TestLeafNode(TestRunner):
                 "value": "Test"
             },
             "expected_html": "Test",
-            "expected_str": "Test"
         }
     ]
 
@@ -41,7 +39,6 @@ class TestLeafNode(TestRunner):
                 "tag": None,
                 "value": "Hello world"
             },
-            "expected_str": "Hello world",
             "expected_repr": "Hello world",
             "expected_html": "Hello world"
         },
@@ -51,12 +48,10 @@ class TestLeafNode(TestRunner):
                 "tag": None,
                 "value": "Hello & goodbye"
             },
-            "expected_str": "Hello & goodbye",
             "expected_repr": "Hello & goodbye",
             "expected_html": "Hello & goodbye"
         }
     ]
-
 
     equality_cases = [
         {
@@ -85,14 +80,14 @@ class TestLeafNode(TestRunner):
         with self.assertRaises(TypeError) as context:
             LeafNode("p")
         self.assertTrue("missing 1 required positional argument: 'value'" in str(context.exception))
-        
+
         # If value not a string when to_html is called a ValueError is raised.
         invalid_cases = [
             ("None value", LeafNode("p", None)),
             ("Dict value", LeafNode("p", {"key": "val"})),
             ("List value", LeafNode("p", ["List item"]))
         ]
-        
+
         for case_name, node in invalid_cases:
             with self.subTest(case_name):
                 with self.assertRaises(ValueError) as context:
@@ -104,13 +99,11 @@ class TestLeafNode(TestRunner):
             with self.subTest(case["name"]):
                 node = LeafNode(**case["node_params"])
                 self.assertEqual(node.to_html(), case["expected_html"])
-                self.assertEqual(str(node), case["expected_str"])
 
     def test_text_only_nodes(self):
         for case in self.text_only_cases:
             with self.subTest(case["name"]):
                 node = LeafNode(**case["node_params"])
-                self.assertEqual(str(node), case["expected_str"])
                 self.assertEqual(repr(node), case["expected_repr"])
                 self.assertEqual(node.to_html(), case["expected_html"])
 
@@ -124,7 +117,6 @@ class TestLeafNode(TestRunner):
     def test_inequality(self):
         node = LeafNode(**equality_test_node_params)
         other_params = equality_test_node_params.copy()
-
         props = { "tag": "different", "value": "different", "props": { "different": True} }
 
         for prop in props:

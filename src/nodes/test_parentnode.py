@@ -65,22 +65,6 @@ class TestParentNode(TestRunner):
         }
     ]
 
-    str_representation_cases = [
-        {
-            "name": "Button with nested buttons",
-            "setup": lambda self: ParentNode(
-                tag="button",
-                children=[
-                    LeafNode("button", "Test", props=self.button_props),
-                    LeafNode("button", "Test", props=self.button_props)
-                ],
-                props=self.button_props
-            ),
-            "expected": '<button class="btn" type="button">\n  <button class="btn" type="button">\n    Test\n  </button>\n  <button class="btn" type="button">\n    Test\n  </button>\n</button>'
-        }
-    ]
-
-
     equal_cases = [
         {
             "name": "Equal parent nodes",
@@ -153,7 +137,6 @@ class TestParentNode(TestRunner):
         },
     ]
 
-
     def test_invalid_children(self):
         """Test cases where children are invalid"""
         for case in self.invalid_children_cases:
@@ -178,20 +161,6 @@ class TestParentNode(TestRunner):
             with self.subTest(case["name"]):
                 node = case["setup"](self)
                 self.assertEqual(node.to_html(), case["expected"])
-
-    def test_str(self):
-        """Test string representation of nodes"""
-        for case in self.str_representation_cases:
-            with self.subTest(case["name"]):
-                node = case["setup"](self)
-                self.assertEqual(str(node), case["expected"])
-
-    def test_eq(self):
-        for case in self.str_representation_cases:
-            with self.subTest(case["name"]):
-                node = case["make_node"](self)
-                other = case["make_node"](self)
-                self.assertEqual(node, other)
 
     def test_eq(self):
          for case in self.not_equal_cases:

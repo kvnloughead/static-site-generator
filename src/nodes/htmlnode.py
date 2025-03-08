@@ -47,35 +47,18 @@ class HTMLNode:
             return f"\n{indent * " "}{self.value}"
         return self.value
 
-    def _get_closing_tag(self, left_justify=None):
-        if left_justify != None:
-            return f"\n{left_justify * " "}</{self.tag}>"
+    def _get_closing_tag(self):
         return f"</{self.tag}>"
 
-    def _get_children(self, left_justify=None):
+    def _get_children(self):
         if not self.children:
             return ""
         result = ""
         for child in self.children:
-            if left_justify:
-                result += f"\n{child.__str__(left_justify)}"
-            else:
-                result += repr(child)
-        return result
-        
-    def __str__(self, left_justify=0):
-        # Pretty printed version
-        left_justify_spaces = left_justify * " "
-        indent = (left_justify + 2)
-        
-        result = f"{left_justify_spaces}{self._get_opening_tag()}"
-        result += self._get_value(indent)
-        result += self._get_children(left_justify + 2)
-        result += self._get_closing_tag(left_justify)
+            result += repr(child)
         return result
 
     def __repr__(self, self_closing=False):
-        # Raw HTML version
         result = self._get_opening_tag()
         result += self._get_value()
         result += self._get_children()

@@ -47,24 +47,11 @@ class TestHTMLNode(TestRunner):
         {
             "name": "simple div",
             "node": lambda: HTMLNode(tag="div"),
-            "indent": None,
             "expected": "</div>"
         },
-        {
-            "name": "div with indent 0",
-            "node": lambda: HTMLNode(tag="div", children=[HTMLNode(tag="div")]),
-            "indent": 0,
-            "expected": "\n</div>"
-        },
-        {
-            "name": "div with indent 2",
-            "node": lambda: HTMLNode(tag="div", children=[HTMLNode(tag="div")]),
-            "indent": 2,
-            "expected": "\n  </div>"
-        }
     ]
 
-    str_repr_cases = [
+    repr_cases = [
         {
             "name": "nested structure",
             "setup": lambda self: HTMLNode(
@@ -85,7 +72,6 @@ class TestHTMLNode(TestRunner):
                     )
                 ]
             ),
-            "expected_str": '<main>\n  <div>\n    <p class="text">\n      Paragraph 1\n    </p>\n    <p>\n      Paragraph 2\n    </p>\n  </div>\n  <div>\n    <p>\n      Paragraph 3\n    </p>\n  </div>\n</main>',
             "expected_repr": '<main><div><p class="text">Paragraph 1</p><p>Paragraph 2</p></div><div><p>Paragraph 3</p></div></main>'
         }
     ]
@@ -118,12 +104,11 @@ class TestHTMLNode(TestRunner):
         for case in self.closing_tag_cases:
             with self.subTest(case["name"]):
                 node = case["node"]()
-                result = node._get_closing_tag(case["indent"]) if case["indent"] is not None else node._get_closing_tag()
+                result = node._get_closing_tag()
                 self.assertEqual(result, case["expected"])
 
-    def test_str_and_repr(self):
-        for case in self.str_repr_cases:
+    def test_repr(self):
+        for case in self.repr_cases:
             with self.subTest(case["name"]):
                 node = case["setup"](self)
-                self.assertEqual(str(node), case["expected_str"])
                 self.assertEqual(repr(node), case["expected_repr"])

@@ -7,6 +7,36 @@ from transformers.markdown_to_html_node import markdown_to_html_node, block_stri
 class TestMarkdownToHTMLNode(TestRunner):
     cases = [
         {
+            "name": "image in a block alone",
+            "text": """# Tolkien Fan Club
+
+                    ![JRR Tolkien sitting](/images/tolkien.png)
+            """,
+            "expected": {
+                "tag": "div",
+                "children": [LeafNode("h1", "Tolkien Fan Club"),
+                             LeafNode("img", value="",
+                                      props={ "src": "/images/tolkien.png",
+                                              "alt": "JRR Tolkien sitting"}),
+                ],
+            }
+        },
+        {
+            "name": "image and link in a block alone",
+            "text": """# Tolkien Fan Club
+
+                    [goto](http://tolkien.com)
+            """,
+            "expected": {
+                "tag": "div",
+                "children": [LeafNode("h1", "Tolkien Fan Club"),
+                             LeafNode("a", value="goto",
+                                      props={ "href": "http://tolkien.com"}),
+                ],
+            }
+        },
+
+        {
             "name": "full example",
             "text": "# Musings on Unit Testing\n\nUnit testing your code is a *great* way to build confidence and make friends. Here are some tips.\n\n## Useful tips\n\n1. Talk about unit testing when you are at a party\n2. To impress a date, mention your project's test coverage\n\n## The kids like it too\n\nTry these **kid-friendly** activities:\n\n- write a program to distribute chores among siblings and require each sibling to write a share of the unit tests\n- every day is 'take a child to work' day if you make your child watch you as you write your unit tests\n\n## Random code example\n\n```python\nprint('Hello, world!')\n```\n\n## Conclusion\n\nI leave you with some inspiring quotes:\n\n> Unit testing is next to Godliness. -- unknown author\n\n> On the 6th day, God unit tested. -- unknown author",
             "expected": {

@@ -40,9 +40,12 @@ def make_node(tag, text):
     If there's only one node in the resulting list, the node returned will be a LeafNode with the original text. Otherwise, a ParentNode will be returned with those children.
     """
     child_text_nodes = text_to_textnodes(text)
+    if len(child_text_nodes) == 1 \
+      and child_text_nodes[0].text_type == TextType.NORMAL:
+        return LeafNode(tag, child_text_nodes[0].text)
     child_html_nodes = list(map(text_to_html, child_text_nodes))
     if len(child_html_nodes) == 1:
-        return LeafNode(tag, child_html_nodes[0].value)
+        return child_html_nodes[0]
     node = ParentNode(tag, child_html_nodes)
     return node
 

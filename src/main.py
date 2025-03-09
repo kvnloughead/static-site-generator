@@ -1,5 +1,5 @@
-from copytree import copy_tree
-from generate_page import generate_page
+from processors.copy_tree import copy_tree
+from processors.generate_page import generate_page
 from constants import PUBLIC_PATH, STATIC_PATH
 
 def main():

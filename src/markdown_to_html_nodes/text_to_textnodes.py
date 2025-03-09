@@ -1,8 +1,8 @@
 from nodes.textnode import TextNode, TextType
-from transformers.split_nodes_by_delimiter import split_nodes_by_delimiter
-from transformers.split_nodes_by_image import split_nodes_by_image
-from transformers.split_nodes_by_link import split_nodes_by_link
-from transformers.split_nodes_by_linebreak import split_nodes_by_linebreak
+from markdown_to_html_nodes.split_nodes_by_delimiter import split_nodes_by_delimiter
+from markdown_to_html_nodes.split_nodes_by_image import split_nodes_by_image
+from markdown_to_html_nodes.split_nodes_by_link import split_nodes_by_link
+from markdown_to_html_nodes.split_nodes_by_linebreak import split_nodes_by_linebreak
 
 delimiters = [
     ("**", TextType.BOLD),

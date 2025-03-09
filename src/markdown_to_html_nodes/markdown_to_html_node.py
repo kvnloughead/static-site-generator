@@ -2,10 +2,10 @@ from nodes.textnode import TextNode, TextType
 from nodes.parentnode import ParentNode
 from nodes.leafnode import LeafNode
 from nodes.voidnode import VoidNode
-from transformers.markdown_to_block_strings import markdown_to_block_strings
-from transformers.block_to_block_type import block_to_block_type, BlockType
-from transformers.text_to_textnodes import text_to_textnodes
-from transformers.text_to_markup import text_to_html, extract_markdown_images
+from markdown_to_html_nodes.markdown_to_block_strings import markdown_to_block_strings
+from markdown_to_html_nodes.block_to_block_type import block_to_block_type, BlockType
+from markdown_to_html_nodes.text_to_textnodes import text_to_textnodes
+from markdown_to_html_nodes.text_to_markup import text_to_html, extract_markdown_images
 
 
 def markdown_to_html_node(markdown, parent_tag="div", parent_props=None):

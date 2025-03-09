@@ -1,5 +1,5 @@
 from test_utils import TestRunner
-from transformers.split_nodes_by_delimiter import split_node, split_nodes_by_delimiter
+from markdown_to_html_nodes.split_nodes_by_delimiter import split_node, split_nodes_by_delimiter
 from nodes.textnode import TextNode, TextType
 from nodes.leafnode import LeafNode
 

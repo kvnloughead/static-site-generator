@@ -1,5 +1,5 @@
 from test_utils import TestRunner
-from transformers.text_to_markup import text_to_html, extract_markdown_images, extract_markdown_links
+from markdown_to_html_nodes.text_to_markup import text_to_html, extract_markdown_images, extract_markdown_links
 from nodes.textnode import TextNode, TextType
 from nodes.leafnode import LeafNode
 from nodes.voidnode import VoidNode

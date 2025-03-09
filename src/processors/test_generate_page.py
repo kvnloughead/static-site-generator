@@ -1,5 +1,5 @@
 from test_utils import TestRunner
-from generate_page import extract_title
+from processors.generate_page import extract_title
 
 class TestExtractTitleFromMarkdown(TestRunner):
     cases = [

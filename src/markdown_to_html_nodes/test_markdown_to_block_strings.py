@@ -1,5 +1,5 @@
 from test_utils import TestRunner
-from transformers.markdown_to_block_strings import markdown_to_block_strings
+from markdown_to_html_nodes.markdown_to_block_strings import markdown_to_block_strings
 
 class TestMarkdownToBlockStrings(TestRunner):
     simple_cases = [

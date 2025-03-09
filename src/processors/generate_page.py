@@ -1,6 +1,6 @@
 import os
-from transformers.markdown_to_html_node import markdown_to_html_node
-from copytree import copy_tree
+from markdown_to_html_nodes.markdown_to_html_node import markdown_to_html_node
+from processors.copy_tree import copy_tree
 from constants import STATIC_PATH, PUBLIC_PATH
 
 def extract_title(markdown):

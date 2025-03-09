@@ -1,5 +1,5 @@
 from test_utils import TestRunner
-from transformers.split_nodes_by_image import split_nodes_by_image
+from markdown_to_html_nodes.split_nodes_by_link import split_nodes_by_link
 from nodes.textnode import TextNode, TextType
 from nodes.leafnode import LeafNode
 
@@ -8,30 +8,30 @@ class TestSplitNode(TestRunner):
         {
             "name": "simple case",
             "old_nodes": [
-                LeafNode("p", "text"), TextNode("left ![alt](https://example.png) right", TextType.NORMAL), LeafNode("p", "text")
+                LeafNode("p", "text"), TextNode("left [here](https://example.com) right", TextType.NORMAL), LeafNode("p", "text")
             ],
             "expected": [
                 LeafNode("p", "text"),
                 TextNode("left ", TextType.NORMAL),
-                TextNode("alt", TextType.IMAGE, url="https://example.png"),
+                TextNode("here", TextType.LINK, url="https://example.com"),
                 TextNode(" right", TextType.NORMAL),
                 LeafNode("p", "text")
             ],
                 
         },
         {
-            "name": "multiple images",
+            "name": "multiple links",
             "old_nodes": [
-                LeafNode("p", "text"), TextNode("left ![alt](https://example.png) right", TextType.NORMAL), LeafNode("p", "text"), TextNode("left ![alt](https://example.png) right", TextType.NORMAL), LeafNode("p", "text"), LeafNode("p", "text")
+                LeafNode("p", "text"), TextNode("left [link text](https://example.com) right", TextType.NORMAL), LeafNode("p", "text"), TextNode("left [link text](https://example.com) right", TextType.NORMAL), LeafNode("p", "text"), LeafNode("p", "text")
             ],
             "expected": [
                 LeafNode("p", "text"),
                 TextNode("left ", TextType.NORMAL),
-                TextNode("alt", TextType.IMAGE, url="https://example.png"),
+                TextNode("link text", TextType.LINK, url="https://example.com"),
                 TextNode(" right", TextType.NORMAL),
                 LeafNode("p", "text"),
                 TextNode("left ", TextType.NORMAL),
-                TextNode("alt", TextType.IMAGE, url="https://example.png"),
+                TextNode("link text", TextType.LINK, url="https://example.com"),
                 TextNode(" right", TextType.NORMAL),
                 LeafNode("p", "text"),
                 LeafNode("p", "text")
@@ -41,37 +41,37 @@ class TestSplitNode(TestRunner):
         {
             "name": "empty slots",
             "old_nodes": [
-                TextNode("left ![alt](https://example.png) right", TextType.NORMAL), TextNode("left ![alt](https://example.png) right", TextType.NORMAL)
+                TextNode("left [link text](https://example.com) right", TextType.NORMAL), TextNode("left [link text](https://example.com) right", TextType.NORMAL)
             ],
             "expected": [
                 TextNode("left ", TextType.NORMAL),
-                TextNode("alt", TextType.IMAGE, url="https://example.png"),
+                TextNode("link text", TextType.LINK, url="https://example.com"),
                 TextNode(" right", TextType.NORMAL),
                 TextNode("left ", TextType.NORMAL),
-                TextNode("alt", TextType.IMAGE, url="https://example.png"),
+                TextNode("link text", TextType.LINK, url="https://example.com"),
                 TextNode(" right", TextType.NORMAL),
             ],     
         },
         {
-            "name": "multiple images in text node",
+            "name": "multiple links in text node",
             "old_nodes": [
-                TextNode("left ![alt](https://example.png) middle ![alt](https://example.png) right", TextType.NORMAL)
+                TextNode("left [link text](https://example.com) middle [link text](https://example.com) right", TextType.NORMAL)
             ],
             "expected": [
                 TextNode("left ", TextType.NORMAL),
-                TextNode("alt", TextType.IMAGE, url="https://example.png"),
+                TextNode("link text", TextType.LINK, url="https://example.com"),
                 TextNode(" middle ", TextType.NORMAL),
-                TextNode("alt", TextType.IMAGE, url="https://example.png"),
+                TextNode("link text", TextType.LINK, url="https://example.com"),
                 TextNode(" right", TextType.NORMAL),
             ],     
         },
         {
-            "name": "no images in text node",
+            "name": "no links in text node",
             "old_nodes": [
-                TextNode("no images", TextType.NORMAL)
+                TextNode("no links", TextType.NORMAL)
             ],
             "expected": [
-                TextNode("no images", TextType.NORMAL),
+                TextNode("no links", TextType.NORMAL),
             ],     
         },
         {
@@ -83,7 +83,7 @@ class TestSplitNode(TestRunner):
     ]
 
     def test_simple_cases(self):
-        for case in self.simple_cases:
+           for case in self.simple_cases:
             with self.subTest(case["name"]):
-                actual = split_nodes_by_image(case["old_nodes"])
+                actual = split_nodes_by_link(case["old_nodes"])
                 self.assertEqual(actual, case["expected"])

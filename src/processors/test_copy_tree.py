@@ -1,6 +1,6 @@
 import os, shutil
 from test_utils import TestRunner
-from src.copytree import copy_tree
+from processors.copy_tree import copy_tree
 
 class TestCopyTree(TestRunner):
     def setUp(self):

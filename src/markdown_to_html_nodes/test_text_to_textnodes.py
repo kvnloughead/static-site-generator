@@ -1,5 +1,5 @@
 from test_utils import TestRunner
-from transformers.text_to_textnodes import text_to_textnodes
+from markdown_to_html_nodes.text_to_textnodes import text_to_textnodes
 from nodes.textnode import TextNode, TextType
 
 class TestTextToTextNodes(TestRunner):

@@ -1,5 +1,5 @@
 from nodes.textnode import TextNode, TextType
-from transformers.text_to_markup import extract_markdown_images
+from markdown_to_html_nodes.text_to_markup import extract_markdown_images
 
 def split_nodes_by_image(old_nodes, new_nodes=None):
     """

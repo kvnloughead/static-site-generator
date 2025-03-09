@@ -27,6 +27,11 @@ class ParentNode(HTMLNode):
         return super().__repr__()
                 
     def __eq__(self, other):
+        print("ParentNode __eq__ called")
+        print(f"Self type: {type(self)}")
+        print(f"Other type: {type(other)}")
+        print(f"Self children: {self.children}")
+        print(f"Other children: {other.children}")
         if not isinstance(other, ParentNode):
             return False
         return super().__eq__(other)

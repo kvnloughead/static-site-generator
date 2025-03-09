@@ -22,10 +22,10 @@ class TestTextToTextNodes(TestRunner):
           },
           {
                "name": "adjacent",
-               "text": "**bold***italic*`code`![an image](image.png)[a link](https://foo.bar)",
+               "text": "**bold text***italic text*`code`![an image](image.png)[a link](https://foo.bar)",
                "expected": [
-                    TextNode("bold", TextType.BOLD),
-                    TextNode("italic", TextType.ITALIC),
+                    TextNode("bold text", TextType.BOLD),
+                    TextNode("italic text", TextType.ITALIC),
                     TextNode("code", TextType.CODE),
                     TextNode("an image", TextType.IMAGE, url="image.png"),
                     TextNode("a link", TextType.LINK, url="https://foo.bar"),

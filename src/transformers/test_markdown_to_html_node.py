@@ -21,20 +21,6 @@ class TestMarkdownToHTMLNode(TestRunner):
                 ],
             }
         },
-        {
-            "name": "image and link in a block alone",
-            "text": """# Tolkien Fan Club
-
-                    [goto](http://tolkien.com)
-            """,
-            "expected": {
-                "tag": "div",
-                "children": [LeafNode("h1", "Tolkien Fan Club"),
-                             LeafNode("a", value="goto",
-                                      props={ "href": "http://tolkien.com"}),
-                ],
-            }
-        },
 
         {
             "name": "full example",

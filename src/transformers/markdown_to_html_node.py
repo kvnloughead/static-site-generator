@@ -1,4 +1,3 @@
-import re
 from nodes.textnode import TextNode, TextType
 from nodes.parentnode import ParentNode
 from nodes.leafnode import LeafNode
@@ -6,7 +5,8 @@ from nodes.voidnode import VoidNode
 from transformers.markdown_to_block_strings import markdown_to_block_strings
 from transformers.block_to_block_type import block_to_block_type, BlockType
 from transformers.text_to_textnodes import text_to_textnodes
-from transformers.text_to_markup import text_to_html
+from transformers.text_to_markup import text_to_html, extract_markdown_images
+
 
 def markdown_to_html_node(markdown, parent_tag="div", parent_props=None):
     """markdown_to_html_node parses the markdown string into blocks and inline elements, wraps them in the parent node, and returns that node."""
@@ -29,6 +29,8 @@ def block_string_to_html_nodes(text):
             return make_code_node(text)
         case BlockType.QUOTE:   
             return make_quote_node(text)
+        case BlockType.IMAGE:
+            return make_image_node(text)
         case BlockType.UNORDERED_LIST:   
             return make_list_node(text, tag="ul")
         case BlockType.ORDERED_LIST:   
@@ -77,6 +79,10 @@ def make_quote_node(text):
 
     node = make_node("blockquote", "".join(new_lines))
     return node
+
+def make_image_node(text, tag="img"):
+    alt, src = extract_markdown_images(text)[0]
+    return VoidNode(tag, value=None, props={ "src": src, "alt": alt })
 
 def make_list_node(text, tag="ul"):
     lines = text.split("\n")

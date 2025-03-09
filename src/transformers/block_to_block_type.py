@@ -11,6 +11,7 @@ class BlockType(Enum):
     UNORDERED_LIST = "unordered_list"
     ORDERED_LIST = "ordered_list"
     PARAGRAPH = "paragraph"
+    IMAGE = "image"
 
 def block_to_block_type(block_text):
     """
@@ -26,6 +27,7 @@ def block_to_block_type(block_text):
     - Quote: each line starts with a >.
     - Unordered list: each line starts with a * or each line starts with a -, followed by a space.
     - Ordered list: each line starts with a number followed by a "." character, followed by a space. The numbers must start at 1 and be sequential.
+    - Images: an image block is a markdown image that is the only thing in a block. The format is ![alt text](path/to/image).
     """
     
     def is_unordered_list(lines):
@@ -43,6 +45,7 @@ def block_to_block_type(block_text):
     
     lines = block_text.split("\n")
     code_block_rx = re.compile(r'^```.+```$', re.DOTALL)
+    image_block_rx = r'^!\[([^\[\]]*)\]\(([^\(\)]*)\)$'
     heading_rx = r'^#{1,6}\s+.+'
     
     if re.match(heading_rx, block_text):
@@ -51,6 +54,8 @@ def block_to_block_type(block_text):
         return BlockType.CODE
     elif is_quote(lines):
         return BlockType.QUOTE
+    elif re.match(image_block_rx, block_text):
+        return BlockType.IMAGE
     elif is_unordered_list(lines):
         return BlockType.UNORDERED_LIST
     elif is_ordered_list(lines):

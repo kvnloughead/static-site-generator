@@ -29,7 +29,7 @@ def split_nodes_by_delimiter(old_nodes, delimiter, text_type, new_nodes=None):
     ]
     ```
 
-    Nested delimiters are not supported.
+    Nested delimiters are supported by sequential calls to the function.
     """
     result = []
     if len(old_nodes) == 0 or (new_nodes != None and len(new_nodes) == 0):

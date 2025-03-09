@@ -7,7 +7,6 @@ class TestVoidNode(TestRunner):
             "name": "image",
             "node_params": {
                 "tag": "img",
-                "value": "",
                 "props": {
                     "src": "img.png",
                     "alt": "alt text"
@@ -17,10 +16,18 @@ class TestVoidNode(TestRunner):
             "expected_exception": False
          },
          {
+             "name": "br",
+             "node_params": {
+                "tag": "br",
+            },
+            "expected_repr": '<br>',
+            "expected_exception": False
+         },
+
+         {
             "name": "image",
             "node_params": {
                 "tag": None,
-                "value": "",
                 "props": {
                     "src": "img.png",
                     "alt": "alt text"

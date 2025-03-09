@@ -82,7 +82,7 @@ def make_quote_node(text):
 
 def make_image_node(text, tag="img"):
     alt, src = extract_markdown_images(text)[0]
-    return VoidNode(tag, value=None, props={ "src": src, "alt": alt })
+    return VoidNode(tag, props={ "src": src, "alt": alt })
 
 def make_list_node(text, tag="ul"):
     lines = text.split("\n")

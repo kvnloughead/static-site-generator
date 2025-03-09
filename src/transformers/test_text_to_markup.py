@@ -88,7 +88,6 @@ class TestTextToMarkup(TestRunner):
         for case in self.image_cases:
             with self.subTest(case["name"]):
                 leaf_node = VoidNode(case["tag"],
-                                     "", 
                                      props={ "src": case["url"],
                                              "alt": case["alt"]})
                 

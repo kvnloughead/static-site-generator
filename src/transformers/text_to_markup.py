@@ -13,7 +13,7 @@ def text_to_html(text_node):
         case TextType.NORMAL:
             return LeafNode(None, text_node.text)
         case TextType.LINEBREAK:
-            return VoidNode("br", value="")
+            return VoidNode("br")
         case TextType.BOLD:
             return LeafNode("b", text_node.text)
         case TextType.ITALIC:
@@ -23,7 +23,7 @@ def text_to_html(text_node):
         case TextType.LINK:
             return LeafNode("a", text_node.text, props={ "href": text_node.url })
         case TextType.IMAGE:
-            return VoidNode("img", "", props={ "src": text_node.url, "alt": text_node.text})
+            return VoidNode("img", props={ "src": text_node.url, "alt": text_node.text})
 
 
 def extract_markdown_images(text):

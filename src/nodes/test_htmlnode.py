@@ -76,9 +76,9 @@ class TestHTMLNode(TestRunner):
         }
     ]
 
-    def test_void_tag_not_voidnode(self):
+    def test_void_tag_not_using_voidnode(self):
         void_tag = random.choice(HTMLNode._self_closing_tags)
-        msg = f"{void_tag} tags must be created as VoidNodes."
+        msg = f"A {void_tag} tag is void and must be created as a VoidNode."
         self.assert_raises_exception(TypeError,
                                      msg,
                                      lambda: HTMLNode(tag=void_tag))

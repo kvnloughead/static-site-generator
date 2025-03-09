@@ -11,7 +11,7 @@ class HTMLNode:
 
     def __init__(self, tag=None, value=None, children=None, props=None):
         if tag in self._self_closing_tags and not self.is_void():
-            raise TypeError(f"{tag} tags must be created as VoidNodes.")
+            raise TypeError(f"A {tag} tag is void and must be created as a VoidNode.")
         if not (tag or value or children):
             raise TypeError("Must provide at least one of tag, value, or children")
         self.tag = tag

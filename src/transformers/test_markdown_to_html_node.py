@@ -15,7 +15,7 @@ class TestMarkdownToHTMLNode(TestRunner):
             "expected": {
                 "tag": "div",
                 "children": [LeafNode("h1", "Tolkien Fan Club"),
-                             VoidNode("img", value="",
+                             VoidNode("img",
                                       props={ "src": "/images/tolkien.png",
                                               "alt": "JRR Tolkien sitting"}),
                 ],
@@ -248,7 +248,7 @@ class TestMakeHeadingAndQuoteNodes(TestRunner):
                 "children": [
                     LeafNode(tag="i", value="italic"),
                     LeafNode(tag=None, value=" and "),
-                    VoidNode(tag="img", value="",
+                    VoidNode("img",
                              props={ "src": "foo.png", "alt": "alt" }),
                     LeafNode(tag=None, value=" and "),
                     LeafNode(tag="a", value="goto", 
@@ -318,7 +318,7 @@ class TestMakeQuoteListAndParagraphNodes(TestRunner):
                 "children": [
                     LeafNode(tag="i", value="italic"),
                     LeafNode(tag=None, value=" and "),
-                    VoidNode(tag="img", value="",
+                    VoidNode("img",
                              props={ "src": "foo.png", "alt": "alt" }),
                     LeafNode(tag=None, value=" and "),
                     LeafNode(tag="a", value="goto", 
@@ -396,7 +396,7 @@ class TestMakeQuoteListAndParagraphNodes(TestRunner):
                     ParentNode("li", 
                                children=[LeafNode(None, "line 1 "), 
                                          LeafNode(tag="i", value="italic"), LeafNode(tag=None, value=" and "),
-                                         VoidNode(tag="img", value="", props={ "src": "foo.png", "alt": "alt" })]),
+                                         VoidNode("img", props={ "src": "foo.png", "alt": "alt" })]),
                     ParentNode("li", 
                                children=[LeafNode(tag=None, value="line 2 "), 
                                          LeafNode(tag="a", value="goto", 

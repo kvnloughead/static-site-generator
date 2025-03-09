@@ -2,6 +2,7 @@ from nodes.textnode import TextNode, TextType
 from transformers.split_nodes_by_delimiter import split_nodes_by_delimiter
 from transformers.split_nodes_by_image import split_nodes_by_image
 from transformers.split_nodes_by_link import split_nodes_by_link
+from transformers.split_nodes_by_linebreak import split_nodes_by_linebreak
 
 def text_to_textnodes(text):
     """
@@ -16,4 +17,5 @@ def text_to_textnodes(text):
     with_code = split_nodes_by_delimiter(with_italic, "`", TextType.CODE)
     with_images = split_nodes_by_image(with_code)
     with_links = split_nodes_by_link(with_images)
-    return with_links
+    with_linebreaks = split_nodes_by_linebreak(with_links)
+    return with_linebreaks

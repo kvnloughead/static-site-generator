@@ -142,6 +142,22 @@ class TestBlockStringToHTMLNodes(TestRunner):
             "expected_tag": "blockquote",
        },
        {
+            "name": "quote whitespace line",
+            "text": "> Quote\n> \n> end quote",
+            "expected_tag": "blockquote",
+       },
+       {
+            "name": "leading empty/whitespace lines are omitted",
+            "text": ">  \n>\n> Quote\n>\n> end quote",
+            "expected_tag": "blockquote",
+       },
+       {
+            "name": "trailing empty/whitespace lines are omitted",
+            "text": "> Quote\n>\n> end quote\n>  \n>",
+            "expected_tag": "blockquote",
+       },
+
+       {
             "name": "p - (not quote multiline)",
             "text": "> Quote\n end quote",
             "expected_tag": "p",

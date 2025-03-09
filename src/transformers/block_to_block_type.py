@@ -32,6 +32,9 @@ def block_to_block_type(block_text):
         return each_line_starts_with("* ", lines) or each_line_starts_with("- ", lines)
 
     def is_quote(lines):
+        """Each line in a quote must start with a '>'. This must be followed either by a space or a newline character."""
+        if lines == [">"]:
+            return False
         for line in lines:
             if not (line.startswith("> ") or line == ">"):
                 return False

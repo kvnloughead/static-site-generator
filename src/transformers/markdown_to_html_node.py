@@ -1,3 +1,4 @@
+import re
 from nodes.textnode import TextNode, TextType
 from nodes.parentnode import ParentNode
 from nodes.leafnode import LeafNode
@@ -69,11 +70,18 @@ def make_code_node(text):
     return ParentNode("pre", children=[code_node])
     
 def make_quote_node(text):
-    _, quote_text = text.split(" ", maxsplit=1)
-    tag = "blockquote"
-    node = make_node(tag, quote_text)
-    return node
+    """Split the text on newlines, strip whitespace, and remove the leading > from each line. The result is joined in new string, and empty lines are replaced with newline characters. These will be converted to <br> tags by text_to_html."""
+    lines = text.split("\n")
+    new_lines = []
+    for line in lines:
+        line = line.strip()
+        if len(line) == 1:
+            new_lines.append("\n")
+        else:
+            new_lines.append(line.split(" ", maxsplit=1)[1])
 
+    node = make_node("blockquote", "".join(new_lines))
+    return node
 
 def make_list_node(text, tag="ul"):
     lines = text.split("\n")

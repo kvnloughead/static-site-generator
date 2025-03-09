@@ -8,6 +8,7 @@ class TextType(Enum):
     CODE = "code"
     LINK = "link"
     IMAGE = "image"
+    LINEBREAK = "linebreak"
 
 class TextNode:
     """

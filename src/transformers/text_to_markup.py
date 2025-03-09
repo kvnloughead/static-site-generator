@@ -12,6 +12,8 @@ def text_to_html(text_node):
     match text_node.text_type:
         case TextType.NORMAL:
             return LeafNode(None, text_node.text)
+        case TextType.LINEBREAK:
+            return VoidNode("br", value="")
         case TextType.BOLD:
             return LeafNode("b", text_node.text)
         case TextType.ITALIC:

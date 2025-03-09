@@ -48,12 +48,7 @@ def make_node(tag, text):
       and child_text_nodes[0].text_type == TextType.NORMAL:
         return LeafNode(tag, child_text_nodes[0].text)
 
-    elif len(child_text_nodes) == 1:
-        return text_to_html(child_text_nodes[0])
-
     child_html_nodes = list(map(text_to_html, child_text_nodes))
-    if len(child_html_nodes) == 1:
-        return child_html_nodes[0]
 
     node = ParentNode(tag, child_html_nodes)
     return node

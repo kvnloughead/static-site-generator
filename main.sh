@@ -7,7 +7,7 @@
 # to run it on another port. The new port number will be the first available 
 # integer that is greater than 8888.
 
-python3 src/main.py
+python3 src/main.py "/" "./public"
 echo "Running main.py" 
 
 PORT=8888

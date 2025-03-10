@@ -1,5 +1,3 @@
 STATIC_PATH = "./static"
 CONTENT_PATH = "./content"
-PUBLIC_PATH = "./public"
-DEPLOY_PATH = "./docs"
 TEMPLATE_PATH = "./template.html"

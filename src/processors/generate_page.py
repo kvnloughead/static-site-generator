@@ -1,4 +1,4 @@
-import os
+import os, re
 from markdown_to_html_nodes.markdown_to_html_node import markdown_to_html_node
 from processors.copy_tree import copy_tree
 from constants import STATIC_PATH, PUBLIC_PATH
@@ -36,4 +36,19 @@ def generate_page(from_path, template_path, dest_path, parent_tag="div"):
     os.makedirs(os.path.dirname(dest_path), exist_ok=True)
     with open(dest_path, 'w') as f:
         f.write(with_content)
-    
+
+def generate_pages_recursively(
+        src_dirpath, template_path, dest_dirpath, tag="div"):
+
+    source_tree = os.listdir(src_dirpath)
+    if len(source_tree) == 0:
+        raise OSError(f"Source path must not be empty.")
+
+    for f in source_tree:
+        src_path = os.path.join(src_dirpath, f)
+        dest_file = re.sub(r'.md$', ".html", f)
+        dest_path = os.path.join(dest_dirpath, dest_file)
+        if os.path.isfile(src_path):
+            generate_page(src_path, template_path, dest_path, tag)
+        elif os.path.isdir(src_path):
+            generate_pages_recursively(src_path, template_path, dest_path)

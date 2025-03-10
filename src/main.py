@@ -1,13 +1,14 @@
+import sys
 from processors.copy_tree import copy_tree
-from processors.generate_page import generate_page
-from constants import PUBLIC_PATH, STATIC_PATH
+from processors.generate_page import generate_pages_recursively
+from constants import PUBLIC_PATH, STATIC_PATH, DEPLOY_PATH, TEMPLATE_PATH, CONTENT_PATH
 
 def main():
+    BASE_PATH = sys.argv[1]
     # Clear ./public directory and copy everything from ./static to it.
-    copy_tree(STATIC_PATH, PUBLIC_PATH)
+    copy_tree(STATIC_PATH, PUBLIC_PATH, clear_dest_tree=True)
 
-    # Generate ./public/index.html using template.html and content/index.md.
-    # The generated HTML will be wrapped in an <article> and inserted into the
-    # template's body. 
-    generate_page("./content/index.md", "./template.html", "./public/index.html", "article") 
+    # Generate HTML files from markdown files in the content directory and add
+    # them to the public directory.
+    generate_pages_recursively(CONTENT_PATH, TEMPLATE_PATH, PUBLIC_PATH, "article")
 main()
